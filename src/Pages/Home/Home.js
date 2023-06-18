@@ -24,7 +24,6 @@ const Home = () => {
                 p2="rerum commodi corrupti, temporibus non quam." />
             <Testmonial />
             <ReviewsForm />
-            <Blog />
             <Footer />
         </>
 
