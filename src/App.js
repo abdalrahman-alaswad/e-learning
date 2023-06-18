@@ -8,7 +8,6 @@ import PrivateRoutesAdmin from './utlis/PrivateRoutesAdmin';
 function App() {
   return (
     <div className="App">
-    'd,as';,das;'
       <Router>
         {/* <Header /> */}
         <Container >
