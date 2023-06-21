@@ -1,21 +1,16 @@
 import "./Sidebar.css"
 import Face from "../../assets/Images/face15.jpg"
 import { BiDotsVerticalRounded, BiNews } from "react-icons/bi";
-import { BsInfoLg } from "react-icons/bs";
-import { FcTodoList } from "react-icons/fc";
 import { IoSpeedometerSharp } from "react-icons/io5";
 import { AiOutlineUser, AiOutlineSetting } from "react-icons/ai";
-import { RiCoupon2Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
+import { Link, useNavigate } from "react-router-dom";
 import { MdRateReview } from "react-icons/md";
 import { AiOutlineBars } from "react-icons/ai";
 import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
-import { AiOutlineMail } from "react-icons/ai";
-import { AiOutlineBell, AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
-import { AiOutlineCalendar } from "react-icons/ai";
-import { ImAttachment } from "react-icons/im";
 import { HiOutlineBars3CenterLeft } from "react-icons/hi2";
+import Cookies from "js-cookie";
 
 
 
@@ -26,6 +21,8 @@ const Sidebar = () => {
     const height = useAnimation()
     const opacity1 = useAnimation()
     const opacity2 = useAnimation()
+    const display = useAnimation()
+    const navigate = useNavigate()
     const sidebarHeight = async () => {
         await setVisible(!visible)
         height.start({
@@ -42,8 +39,18 @@ const Sidebar = () => {
             opacity: visible ? "0" : "1"
         })
 
-    }
+        display.start({
+            display: visible ? "block" : "none"
 
+        })
+    }
+    const logOutHandler = () => {
+        Cookies.remove("userToken")
+        Cookies.remove("userRole")
+        Cookies.remove("userName")
+        Cookies.remove("userId")
+        navigate("/SignInUp")
+    }
     return (
         <>
             <motion.nav initial={{ width: "250px", height: "calc(280vh - 0px)", top: "32px" }} animate={height} className="sidebar sidebar-offcanvas" id="sidebar">
@@ -64,55 +71,54 @@ const Sidebar = () => {
                                     <span className="count bg-success"></span>
                                 </div>
                                 <div className="profile-name">
-                                    <motion.h5 className="mb-0 font-weight-normal">admin name</motion.h5>
-                                    <span>admin</span>
+                                    <motion.h5 animate={display} className="mb-0 font-weight-normal">admin name</motion.h5>
+                                    <motion.span animate={display}>admin</motion.span>
                                 </div>
                             </div>
                             <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i className="mdi mdi-dots-vertical"><BiDotsVerticalRounded /></i></a>
                             <div className="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                                <a href="#" className="dropdown-item preview-item">
+                                <div className="dropdown-item preview-item">
+                                    <li className="nav-item menu-items">
+                                        <Link to="AdminProfile" className="nav-link">
+                                            <span className="menu-icon">
+                                                <i className="mdi mdi-speedometer"><CgProfile /></i>
+                                            </span>
+                                            <motion.span className="menu-title"> Admin Profile</motion.span>
+                                        </Link>
+                                    </li>
+                                </div>
+                                <div className="dropdown-divider"></div>
+                                <motion.div animate={display} className="dropdown-item preview-item">
                                     <div className="preview-item-content">
-                                        <li className="nav-item menu-items">
-                                            <Link to="AdminProfile" className="nav-link">
+                                        <li className="nav-item menu-items" >
+                                            <Link to="AdminEditProfile" className="nav-link" >
+                                                <span className="menu-icon">
+                                                    <i className="mdi mdi-speedometer"><CgProfile /></i>
+                                                </span>
+                                                <motion.span className="menu-title">Edit Profile</motion.span>
+                                            </Link>
+                                        </li>
+                                    </div>
+                                </motion.div>
+                                <div className="dropdown-divider"></div>
+                                <div className="dropdown-item preview-item">
+                                    <div className="preview-item-content">
+                                        <li className="nav-item menu-items" onClick={() => logOutHandler()}>
+                                            <Link className="nav-link">
                                                 <a className="nav-link">
-                                                    <span className="menu-icon">
-                                                        <i className="mdi mdi-speedometer"><IoSpeedometerSharp /></i>
-                                                    </span>
-                                                    <motion.span className="menu-title"> Admin Profile</motion.span>
+                                                    <motion.span className="menu-title" >Log Out</motion.span>
                                                 </a>
                                             </Link>
                                         </li>
                                     </div>
-                                </a>
-                                <div className="dropdown-divider"></div>
-                                <a href="#" className="dropdown-item preview-item">
-                                    <div className="preview-thumbnail">
-                                        <div className="preview-icon bg-dark rounded-circle">
-                                            <i className="mdi mdi-onepassword  text-info"><BsInfoLg /></i>
-                                        </div>
-                                    </div>
-                                    <div className="preview-item-content">
-                                        <p className="preview-subject ellipsis mb-1 text-small">Change Password</p>
-                                    </div>
-                                </a>
-                                <div className="dropdown-divider"></div>
-                                <a href="#" className="dropdown-item preview-item">
-                                    <div className="preview-thumbnail">
-                                        <div className="preview-icon bg-dark rounded-circle">
-                                            <i className="mdi mdi-calendar-today text-success"><FcTodoList /></i>
-                                        </div>
-                                    </div>
-                                    <div className="preview-item-content">
-                                        <p className="preview-subject ellipsis mb-1 text-small">To-do list</p>
-                                    </div>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </li>
-                    <li className="nav-item nav-category">
+                    <motion.li animate={display} className="nav-item nav-category">
                         <span className="nav-link">Navigation</span>
-                    </li>
-                    <li className="nav-item menu-items">
+                    </motion.li>
+                    <motion.li animate={display} className="nav-item menu-items">
                         <Link to="/Admin" className="nav-link">
                             <a className="nav-link">
                                 <span className="menu-icon">
@@ -121,8 +127,8 @@ const Sidebar = () => {
                                 <motion.span className="menu-title">Reservation</motion.span>
                             </a>
                         </Link>
-                    </li>
-                    <li className="nav-item menu-items">
+                    </motion.li>
+                    <motion.li animate={display} className="nav-item menu-items">
                         <Link to="Users" className="nav-link">
                             <a className="nav-link">
                                 <span className="menu-icon">
@@ -131,7 +137,7 @@ const Sidebar = () => {
                                 <motion.span className="menu-title">Users</motion.span>
                             </a>
                         </Link>
-                    </li>
+                    </motion.li>
                     {/* <li className="nav-item menu-items">
                         <Link to="Coupons" className="nav-link">
                             <a className="nav-link">
@@ -152,7 +158,7 @@ const Sidebar = () => {
                             </a>
                         </Link>
                     </li> */}
-                    <li className="nav-item menu-items">
+                    <motion.li animate={display} className="nav-item menu-items">
                         <Link to="Reviews" className="nav-link">
                             <a className="nav-link">
                                 <span className="menu-icon">
@@ -161,7 +167,7 @@ const Sidebar = () => {
                                 <motion.span className="menu-title">Reviews</motion.span>
                             </a>
                         </Link>
-                    </li>
+                    </motion.li>
                 </motion.ul>
             </motion.nav >
             <nav className="navbar nav-bar p-0 fixed-top d-flex flex-row" >
@@ -172,14 +178,14 @@ const Sidebar = () => {
                     </div>
                 </div>
                 <div className="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                    <ul className="navbar-nav w-100" >
+                    {/* <ul className="navbar-nav w-100" >
                         <li className="nav-item w-100">
                             <form className="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                                 <input type="text" className="form-control" placeholder="Search products" />
                             </form>
                         </li>
-                    </ul>
-                    <ul className="navbar-nav navbar-nav-right">
+                    </ul> */}
+                    {/* <ul className="navbar-nav navbar-nav-right">
                         <li className="nav-item dropdown border-left">
                             <a className="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i className="mdi mdi-email"><AiOutlineMail /></i>
@@ -304,7 +310,7 @@ const Sidebar = () => {
                                 <p className="p-3 mb-0 text-center h6-nav">Advanced settings</p>
                             </div>
                         </li>
-                    </ul>
+                    </ul> */}
                 </div>
             </nav>
         </>

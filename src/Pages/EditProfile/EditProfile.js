@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "./EditProfile.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import axios from "axios"
 
 const EditProfile = () => {
+    const [IMG, setImg] = useState()
     const [avatar, setBase64Image] = useState()
     const [passwordNotEmpty, setPasswordNotEmpty] = useState(false)
     const [fullName, setFullName] = useState("Full Name")
@@ -12,6 +13,29 @@ const EditProfile = () => {
     const [passwordConfirm, setPasswordConfirm] = useState()
     const [email, setEmail] = useState("Email")
     const [phone, setPhone] = useState("Phone")
+    const [emailRes, setEmailRes] = useState()
+    const [fullNameRes, setFullNameRes] = useState()
+    const [phoneRes, setphoneRes] = useState()
+    const navigate = useNavigate()
+    useEffect(() => {
+        axios.get(`https://awesomeapp-1-e9667851.deta.app/user/id/${Cookies.get("userId")}`,
+            {
+                headers: {
+                    authToken: Cookies.get("userToken")
+                }
+            })
+            .then(res => {
+                console.log(res)
+                setImg(res.data.avatar)
+                setEmailRes(res.data.email)
+                setFullNameRes(res.data.fullName)
+                setphoneRes(res.data.phone)
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [email])
     const handleSubmit = (e) => {
         e.preventDefault()
         axios.put(`https://awesomeapp-1-e9667851.deta.app/user/${Cookies.get("userId")}`,
@@ -23,6 +47,7 @@ const EditProfile = () => {
             })
             .then(res => {
                 console.log(res)
+                navigate("/Profile")
             })
             .catch(err => {
                 console.log(err)
@@ -48,6 +73,9 @@ const EditProfile = () => {
     //         };
     //     });
     // };
+    const Back = () => {
+        navigate("/Profile")
+    }
     return (
         <>
             <div className="container-xl px-4 mt-4 cont-edit">
@@ -63,7 +91,7 @@ const EditProfile = () => {
                             <div className="card-header">Profile Picture</div>
                             <div className="card-body text-center">
                                 {/* <!-- Profile picture image--> */}
-                                <img className="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+                                <img className="img-account-profile rounded-circle mb-2" src={IMG} alt="avatar" />
                                 {/* <!-- Profile picture help block--> */}
                                 <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                                 {/* <!-- Profile picture upload button--> */}
@@ -81,12 +109,16 @@ const EditProfile = () => {
                                     {/* <!-- Form Group (username)--> */}
                                     <div className="mb-3">
                                         <label className="small mb-1" htmlFor="inputUsername" style={{ color: "black", display: "flex", justifyContent: "start" }}>Username </label>
-                                        <input className="form-control" id="inputUsername" type="text" placeholder="Enter your username" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                                        <input className="form-control" id="inputUsername" type="text" placeholder={fullNameRes} onChange={(e) => setFullName(e.target.value)} />
                                     </div>
                                     {/* <!-- Form Group (email address)--> */}
                                     <div className="mb-3">
                                         <label className="small mb-1" htmlFor="inputEmailAddress" style={{ color: "black", display: "flex", justifyContent: "start" }}>Email address</label>
-                                        <input className="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        <input className="form-control" id="inputEmailAddress" type="email" placeholder={emailRes} onChange={(e) => setEmail(e.target.value)} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="small mb-1" htmlFor="inputPhone" style={{ color: "black", display: "flex", justifyContent: "start" }}>Phone number</label>
+                                        <input type="text" className="form-control" id="inputPhone" placeholder={phoneRes} onChange={(e) => setPhone(e.target.value)} />
                                     </div>
                                     {/* <!-- Form Row        --> */}
                                     <div className="row" style={{ marginBottom: "10px" }}>
@@ -103,18 +135,20 @@ const EditProfile = () => {
                                         </div>
                                     </div>
 
-                                    {/* <!-- Form Row--> */}
-                                    <div className="row gx-3 mb-3">
+
+                                    <div className="row gx-3 mb-3" >
                                         {/* <!-- Form Group (phone number)--> */}
                                         <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="inputPhone" style={{ color: "black", display: "flex", justifyContent: "start" }}>Phone number</label>
-                                            <input type="text" className="form-control" id="inputPhone" placeholder="Enter your phone number" onChange={(e) => setPhone(e.target.value)} />
+                                            <div className="col-md-6" style={{ display: "flex", justifyContent: "start", alignItems: "end" }}>
+                                                <button className="btn btn-primary" type="submit">Save </button>
+                                            </div>
                                         </div>
                                         <div className="col-md-6" style={{ display: "flex", justifyContent: "end", alignItems: "end" }}>
-                                            <button className="btn btn-primary" type="submit">Save changes</button>
+                                            <button className="btn btn-primary" type="submit" style={{ background: "black", border: "none" }} onClick={() => Back()}>Back</button>
                                         </div>
 
                                     </div>
+
                                 </form>
                             </div>
                         </div>

@@ -1,15 +1,14 @@
 import { useState } from "react"
 import "./SignInUp.css"
-import axios from "axios"
-import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { login, register } from "../../redux/userDetailsSlice"
+import axios from "axios"
+import Cookies from "js-cookie"
+
 
 
 const SignInUp = () => {
-    const succsess = useSelector(state => state.userDetailsSlice.succsess)
-    const dispatch = useDispatch()
+    const [error, setError] = useState()
     const navigate = useNavigate()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -20,17 +19,42 @@ const SignInUp = () => {
     const [phone, setPhone] = useState()
     const loginHandler = (e) => {
         e.preventDefault()
-        dispatch(login({ email, password }))
-        setTimeout(() => {
-            navigate("/")
-        }, 4000)
+        axios.post("https://awesomeapp-1-e9667851.deta.app/login", { email, password })
+            .then(res => {
+                console.log(res)
+                Cookies.set("userToken", res.data.token)
+                Cookies.set("userRole", res.data.role)
+                Cookies.set("userId", res.data.id)
+                setError("true")
+                if (Cookies.get("userRole") == "admin") {
+                    window.location.assign("/e-learning/Admin")
+                }
+                else {
+                    window.location.assign("/")
+                }
+            })
+            .catch(err => {
+                setError("false")
+                console.log(err)
+            })
+
     }
     const RegisterHandler = (e) => {
         e.preventDefault()
-        dispatch(register({ email: registerEmail, password: registerPassword, fullName, passwordConfirm, phone }))
-        setTimeout(() => {
-            navigate("/")
-        }, 4000)
+        axios.post("https://awesomeapp-1-e9667851.deta.app/register", { email: registerEmail, password: registerPassword, fullName, passwordConfirm, phone })
+            .then(res => {
+                Cookies.set("userToken", res.data.token)
+                Cookies.set("userRole", res.data.role)
+                Cookies.set("userName", res.data.fullName)
+                Cookies.set("userId", res.data._id)
+
+                navigate("/")
+            })
+            .catch(err => {
+
+                console.log(err)
+            })
+
 
     }
     return (
@@ -43,6 +67,12 @@ const SignInUp = () => {
                             <label htmlFor="chk" aria-hidden="true">Log in</label>
                             <input className="input" type="email" name="email" placeholder="Email" required="" id="loginEmail" onChange={(e) => setEmail(e.target.value)} />
                             <input className="input" type="password" name="password" placeholder="Password" required="" id="loginPass" onChange={(e) => setPassword(e.target.value)} />
+                            {error === "true" && <div class="alert alert-success" role="alert">
+                                Your Email Send Successfuly
+                            </div>}
+                            {error === "false" && <div class="alert alert-danger" role="alert">
+                                Wrong Email Or Password
+                            </div>}
                             <button id="loginBtn">Log in</button>
                         </form>
                     </div>

@@ -1,3 +1,4 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie"
@@ -10,8 +11,10 @@ export const getReviews = createAsyncThunk(
                 headers: {
                     authToken: Cookies.get("userToken")
                 }
-            });
+            })
         return res.data;
+
+
     }
 )
 export const sendReviews = createAsyncThunk(
@@ -63,6 +66,22 @@ export const reservationsDisplay = createAsyncThunk(
         return res.data;
     }
 )
+export const Login = createAsyncThunk(
+    'userDetailsSlice/Login',
+    async ({ email, password }) => {
+
+        const res = await axios.post("https://awesomeapp-1-e9667851.deta.app/login", {
+            email, password
+        })
+
+        return res.data;
+
+
+
+
+
+    }
+)
 
 
 const userDetailsSlice = createSlice({
@@ -71,6 +90,7 @@ const userDetailsSlice = createSlice({
         succsess: false,
         reviews: [],
         error: "",
+        // loginError: "",
         userDetail: [],
         reservations: [],
         table: []
@@ -89,22 +109,6 @@ const userDetailsSlice = createSlice({
                     Cookies.set("userRole", res.data.role)
                     Cookies.set("userName", res.data.fullName)
                     Cookies.set("userId", res.data._id)
-
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        },
-        login: (state, action) => {
-            const email = action.payload.email
-            const password = action.payload.password
-            axios.post("https://awesomeapp-1-e9667851.deta.app/login", {
-                email, password
-            })
-                .then(res => {
-                    Cookies.set("userToken", res.data.token)
-                    Cookies.set("userRole", res.data.role)
-                    Cookies.set("userId", res.data.id)
                 })
                 .catch(err => {
                     console.log(err)
@@ -162,6 +166,25 @@ const userDetailsSlice = createSlice({
         [reservationsDisplay.rejected]: (state, action) => {
             state.error = action.error.message
             console.log(action)
+        },
+        [Login.pending]: (state) => {
+
+        },
+        [Login.fulfilled]: (state, { payload }) => {
+            Cookies.set("userToken", payload.token)
+            Cookies.set("userRole", payload.role)
+            Cookies.set("userId", payload.id)
+            // state.loginError = "true"
+            if (Cookies.get("userRole") == "admin") {
+                window.location.assign("/Admin")
+            }
+            else {
+                window.location.assign("/")
+            }
+        },
+        [Login.rejected]: (state, error) => {
+            // state.loginError = "false"
+            console.log(error)
         },
     }
 })

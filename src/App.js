@@ -8,7 +8,7 @@ import PrivateRoutesAdmin from './utlis/PrivateRoutesAdmin';
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename="/e-learning">
         {/* <Header /> */}
         <Container >
           <Routes>
