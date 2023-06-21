@@ -5,6 +5,7 @@ import { useState } from "react"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
+import { BaseUrl } from "../../assets/Data"
 
 const Book = () => {
     const [closedStatus, setClosedStatus] = useState("")
@@ -13,7 +14,7 @@ const Book = () => {
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post(`https://awesomeapp-1-e9667851.deta.app/request`, {
+        axios.post(`${BaseUrl}/request`, {
             price: "10",
             userID: Cookies.get("userId"),
             day,

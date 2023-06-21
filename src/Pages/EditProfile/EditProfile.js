@@ -3,22 +3,23 @@ import "./EditProfile.css"
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import axios from "axios"
+import { BaseUrl } from "../../assets/Data"
 
 const EditProfile = () => {
     const [IMG, setImg] = useState()
     const [avatar, setBase64Image] = useState()
     const [passwordNotEmpty, setPasswordNotEmpty] = useState(false)
-    const [fullName, setFullName] = useState("Full Name")
+    const [fullName, setFullName] = useState("")
     const [password, setPassword] = useState()
     const [passwordConfirm, setPasswordConfirm] = useState()
-    const [email, setEmail] = useState("Email")
-    const [phone, setPhone] = useState("Phone")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
     const [emailRes, setEmailRes] = useState()
     const [fullNameRes, setFullNameRes] = useState()
     const [phoneRes, setphoneRes] = useState()
     const navigate = useNavigate()
     useEffect(() => {
-        axios.get(`https://awesomeapp-1-e9667851.deta.app/user/id/${Cookies.get("userId")}`,
+        axios.get(`${BaseUrl}/user/id/${Cookies.get("userId")}`,
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -38,7 +39,7 @@ const EditProfile = () => {
     }, [email])
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put(`https://awesomeapp-1-e9667851.deta.app/user/${Cookies.get("userId")}`,
+        axios.put(`${BaseUrl}/user/${Cookies.get("userId")}`,
             { email, password, passwordConfirm, fullName, phone, avatar },
             {
                 headers: {

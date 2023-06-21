@@ -1,7 +1,7 @@
 import { AboutComponent } from "../../Components"
 import "./About.css"
 import Img1 from "../../assets/Images/teacher photo.png"
-import { Link } from "react-router-dom"
+
 
 const About = () => {
     return (

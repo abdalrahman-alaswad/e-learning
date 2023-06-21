@@ -7,6 +7,7 @@ import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { reservationsDisplay } from "../../redux/userDetailsSlice";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BaseUrl } from "../../assets/Data"
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -27,7 +28,8 @@ const Dashboard = () => {
         setClosedStatus("")
     }, [dispatch])
     const deleteResirvation = (ID) => {
-        axios.delete(`https://awesomeapp-1-e9667851.deta.app/request/${ID}`
+
+        axios.delete(`${BaseUrl}/request/${ID}`
             ,
             {
                 headers: {
@@ -36,7 +38,7 @@ const Dashboard = () => {
             }
         )
             .then(res => {
-                window.location.assign("/Admin")
+                window.location.assign("/e-learning/Admin")
             })
             .catch(err => {
                 console.log(err)
@@ -110,7 +112,7 @@ const Dashboard = () => {
     ];
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post(`https://awesomeapp-1-e9667851.deta.app/request`, {
+        axios.post(`${BaseUrl}/request`, {
             userID: Cookies.get("userId"),
             day,
             startTime: time.slice(0, 5),
@@ -125,6 +127,7 @@ const Dashboard = () => {
             .then(res => {
                 console.log(res)
                 setClosedStatus("true")
+                window.location.assign("/e-learning/Admin")
             })
             .catch(err => {
                 console.log(err)

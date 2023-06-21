@@ -1,9 +1,9 @@
 import { useState } from "react"
 import "./SignInUp.css"
 import { useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import Cookies from "js-cookie"
+import { BaseUrl } from "../../assets/Data"
 
 
 
@@ -19,7 +19,7 @@ const SignInUp = () => {
     const [phone, setPhone] = useState()
     const loginHandler = (e) => {
         e.preventDefault()
-        axios.post("https://awesomeapp-1-e9667851.deta.app/login", { email, password })
+        axios.post(`${BaseUrl}/login`, { email, password })
             .then(res => {
                 console.log(res)
                 Cookies.set("userToken", res.data.token)
@@ -30,7 +30,7 @@ const SignInUp = () => {
                     window.location.assign("/e-learning/Admin")
                 }
                 else {
-                    window.location.assign("/")
+                    window.location.assign("/e-learning")
                 }
             })
             .catch(err => {
@@ -41,7 +41,7 @@ const SignInUp = () => {
     }
     const RegisterHandler = (e) => {
         e.preventDefault()
-        axios.post("https://awesomeapp-1-e9667851.deta.app/register", { email: registerEmail, password: registerPassword, fullName, passwordConfirm, phone })
+        axios.post(`${BaseUrl}/register`, { email: registerEmail, password: registerPassword, fullName, passwordConfirm, phone })
             .then(res => {
                 Cookies.set("userToken", res.data.token)
                 Cookies.set("userRole", res.data.role)
@@ -67,10 +67,10 @@ const SignInUp = () => {
                             <label htmlFor="chk" aria-hidden="true">Log in</label>
                             <input className="input" type="email" name="email" placeholder="Email" required="" id="loginEmail" onChange={(e) => setEmail(e.target.value)} />
                             <input className="input" type="password" name="password" placeholder="Password" required="" id="loginPass" onChange={(e) => setPassword(e.target.value)} />
-                            {error === "true" && <div class="alert alert-success" role="alert">
+                            {error === "true" && <div className="alert alert-success" role="alert">
                                 Your Email Send Successfuly
                             </div>}
-                            {error === "false" && <div class="alert alert-danger" role="alert">
+                            {error === "false" && <div className="alert alert-danger" role="alert">
                                 Wrong Email Or Password
                             </div>}
                             <button id="loginBtn">Log in</button>

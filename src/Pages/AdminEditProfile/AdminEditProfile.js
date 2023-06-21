@@ -2,6 +2,7 @@ import "./AdminEditProfile.css"
 import { useState } from "react"
 import Cookies from "js-cookie"
 import axios from "axios"
+import { BaseUrl } from "../../assets/Data"
 
 const AdminEditProfile = () => {
     const [avatar, setBase64Image] = useState()
@@ -13,7 +14,7 @@ const AdminEditProfile = () => {
     const [phone, setPhone] = useState("Phone")
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put(`https://awesomeapp-1-e9667851.deta.app/user/${Cookies.get("userId")}`,
+        axios.put(`${BaseUrl}/user/${Cookies.get("userId")}`,
             { email, password, passwordConfirm, fullName, phone, avatar },
             {
                 headers: {

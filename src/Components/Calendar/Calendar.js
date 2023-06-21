@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import TimeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { useEffect, useState } from "react"
+import { BaseUrl } from "../../assets/Data"
 import Cookies from "js-cookie"
 import axios from "axios"
 
@@ -11,7 +12,7 @@ import axios from "axios"
 const Calendar = () => {
     const [closedResirvationStatus, setClosedResirvationStatus] = useState()
     useEffect(() => {
-        axios.get("https://awesomeapp-1-e9667851.deta.app/closed/calender", {
+        axios.get(`${BaseUrl}/closed/calender`, {
             headers: {
                 authToken: Cookies.get("userToken")
             }

@@ -6,12 +6,13 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import { Table } from "antd"
 import { useNavigate } from "react-router-dom";
+import { BaseUrl } from "../../assets/Data"
 
 const Reviews = () => {
     const [reviews, setReviews] = useState()
     const navigate = useNavigate()
     useEffect(() => {
-        axios.get("https://awesomeapp-1-e9667851.deta.app/review", {
+        axios.get(`${BaseUrl}/review`, {
             headers: {
                 authToken: Cookies.get("userToken")
             }
@@ -24,7 +25,7 @@ const Reviews = () => {
             })
     }, [])
     const hideHandler = (ID, Status) => {
-        axios.put(`https://awesomeapp-1-e9667851.deta.app/review/hide/${ID}`,
+        axios.put(`${BaseUrl}/review/hide/${ID}`,
             { status: Status },
             {
                 headers: {
@@ -38,7 +39,7 @@ const Reviews = () => {
             })
     }
     const deleteHandler = (ID) => {
-        axios.delete(`https://awesomeapp-1-e9667851.deta.app/review/${ID}`,
+        axios.delete(`${BaseUrl}/review/${ID}`,
             {
                 headers: {
                     authToken: Cookies.get("userToken")

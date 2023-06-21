@@ -3,6 +3,7 @@ import { Card } from "../"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getReviews } from "../../redux/userDetailsSlice"
+import { BaseUrl } from "../../assets/Data"
 import axios from "axios"
 import Cookies from "js-cookie"
 
@@ -14,7 +15,7 @@ const Carousel = (props) => {
         dispatch(getReviews({ pending: props.pending }))
     }, [dispatch])
     const Accept = (ID) => {
-        axios.put(`https://awesomeapp-1-e9667851.deta.app/review/${ID}`, {
+        axios.put(`${BaseUrl}/review/${ID}`, {
             status: "unhidden"
         }, {
             headers: {
@@ -31,7 +32,7 @@ const Carousel = (props) => {
             })
     }
     const Cancel = (ID) => {
-        axios.put(`https://awesomeapp-1-e9667851.deta.app/review/${ID}`, {
+        axios.put(`${BaseUrl}/review/${ID}`, {
             status: "hidden"
         }, {
             headers: {

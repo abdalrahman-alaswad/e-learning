@@ -1,12 +1,13 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { BaseUrl } from "../assets/Data"
 import axios from "axios";
 import Cookies from "js-cookie"
 
 export const getReviews = createAsyncThunk(
     'userDetailsSlice/getReviews',
     async ({ pending }) => {
-        const res = await axios.get(`https://awesomeapp-1-e9667851.deta.app/review/filter/${pending}`,
+        const res = await axios.get(`${BaseUrl}/review/filter/${pending}`,
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -20,7 +21,7 @@ export const getReviews = createAsyncThunk(
 export const sendReviews = createAsyncThunk(
     'userDetailsSlice/sendReviews',
     async ({ rate, content, userID }) => {
-        const res = await axios.post('https://awesomeapp-1-e9667851.deta.app/review', { rate, content, userID },
+        const res = await axios.post(`${BaseUrl}/review`, { rate, content, userID },
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -32,7 +33,7 @@ export const sendReviews = createAsyncThunk(
 export const getUserDetails = createAsyncThunk(
     'userDetailsSlice/getUserDetails',
     async ({ userID }) => {
-        const res = await axios.get(`https://awesomeapp-1-e9667851.deta.app/user/id/${userID}`,
+        const res = await axios.get(`${BaseUrl}/user/id/${userID}`,
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -44,7 +45,7 @@ export const getUserDetails = createAsyncThunk(
 export const editProfile = createAsyncThunk(
     'userDetailsSlice/editProfile',
     async ({ userID, email, password, passwordConfirm, fullName, phone, avatar }) => {
-        const res = await axios.put(`https://awesomeapp-1-e9667851.deta.app/user/${userID}`,
+        const res = await axios.put(`${BaseUrl}/user/${userID}`,
             { email, password, passwordConfirm, fullName, phone, avatar },
             {
                 headers: {
@@ -57,7 +58,7 @@ export const editProfile = createAsyncThunk(
 export const reservationsDisplay = createAsyncThunk(
     'userDetailsSlice/reservationsDisplay',
     async () => {
-        const res = await axios.get(`https://awesomeapp-1-e9667851.deta.app/request`,
+        const res = await axios.get(`${BaseUrl}/request`,
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -70,7 +71,7 @@ export const Login = createAsyncThunk(
     'userDetailsSlice/Login',
     async ({ email, password }) => {
 
-        const res = await axios.post("https://awesomeapp-1-e9667851.deta.app/login", {
+        const res = await axios.post(`${BaseUrl}/login`, {
             email, password
         })
 
@@ -102,7 +103,7 @@ const userDetailsSlice = createSlice({
             const password = action.payload.password
             const passwordConfirm = action.payload.passwordConfirm
             const phone = action.payload.phone
-            axios.post("https://awesomeapp-1-e9667851.deta.app/register", { fullName, email, password, passwordConfirm, phone }
+            axios.post(`${BaseUrl}/register`, { fullName, email, password, passwordConfirm, phone }
             )
                 .then(res => {
                     Cookies.set("userToken", res.data.token)
@@ -131,10 +132,11 @@ const userDetailsSlice = createSlice({
 
         },
         [sendReviews.fulfilled]: (state, action) => {
-
+            window.location.assign("/e-learning")
         },
         [sendReviews.rejected]: (state, action) => {
             state.error = action.error.message
+            console.log(action)
 
         },
         [getUserDetails.pending]: (state) => {

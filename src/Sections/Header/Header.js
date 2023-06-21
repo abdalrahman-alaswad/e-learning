@@ -6,7 +6,7 @@ import "./Header.css"
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { CgProfile } from "react-icons/cg";
+import { BaseUrl } from "../../assets/Data"
 import axios from 'axios';
 
 
@@ -24,7 +24,7 @@ const Header = () => {
         navigate("/SignInUp")
     }
     useEffect(() => {
-        axios.get(`https://awesomeapp-1-e9667851.deta.app/user/id/${Cookies.get("userId")}`,
+        axios.get(`${BaseUrl}/user/id/${Cookies.get("userId")}`,
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -38,7 +38,6 @@ const Header = () => {
                 console.log(err)
             })
     }, [])
-    console.log(IMG)
     return (
         <>
             <Navbar bg="light" expand="lg" className='navbar-e' sticky="top">

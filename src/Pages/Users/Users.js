@@ -4,11 +4,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BaseUrl } from "../../assets/Data"
 
 const Users = () => {
     const [users, setUsers] = useState([])
     useEffect(() => {
-        axios.get("https://awesomeapp-1-e9667851.deta.app/user", {
+        axios.get(`${BaseUrl}/user`, {
             headers: {
                 authToken: Cookies.get("userToken")
             }
@@ -26,7 +27,7 @@ const Users = () => {
     }
     const statusUser = (ID, Status) => {
         {
-            ID && Status && axios.put(`https://awesomeapp-1-e9667851.deta.app/user/${ID}`,
+            ID && Status && axios.put(`${BaseUrl}/user/${ID}`,
                 { status: Status },
                 {
                     headers: {
