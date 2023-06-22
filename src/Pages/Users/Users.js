@@ -36,6 +36,7 @@ const Users = () => {
                 })
                 .then(res => {
                     console.log(res)
+                    window.location.assign("/e-learning/Admin/Users")
                 })
                 .catch(err => {
                     console.log(err)

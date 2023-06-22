@@ -33,6 +33,7 @@ const Reviews = () => {
                 }
             })
             .then(res => {
+                window.location.assign("/e-learning/Admin/Reviews")
             })
             .catch(err => {
                 console.log(err)
@@ -46,7 +47,7 @@ const Reviews = () => {
                 }
             })
             .then(res => {
-                window.location.assign("/Admin/Reviews")
+                window.location.assign("/e-learning/Admin/Reviews")
             })
             .catch(err => {
                 console.log(err)
