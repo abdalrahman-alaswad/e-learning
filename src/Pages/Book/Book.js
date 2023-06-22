@@ -71,7 +71,7 @@ const Book = () => {
                                                 {closedStatus === "false" && <div class="alert alert-danger" role="alert">
                                                     Closed
                                                 </div>}
-                                                <div className="col-6 col-btn-center"><a className="btn btn-secondary rounded mt-3 btn-back" href="/">Back</a></div>
+                                                <div className="col-6 col-btn-center"><a className="btn btn-secondary rounded mt-3 btn-back" href="/e-learning">Back</a></div>
                                                 <div className="col-6 col-btn-center"><button className="btn btn-secondary rounded mt-3 btn-book">Book Now</button> </div>
                                             </div>
                                         </div>

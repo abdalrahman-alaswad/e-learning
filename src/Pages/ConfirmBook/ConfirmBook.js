@@ -43,7 +43,7 @@ const ConfirmBook = () => {
                                                 <p className="text-white mb-0">info@example.com</p>
                                             </div>
                                         </div>
-                                        <a className="btn btn-sm btn-warning shadow d-block w-100" href="/Book" style={{ marginTop: "11px " }}>Back</a>
+                                        <a className="btn btn-sm btn-warning shadow d-block w-100" href="/e-learning" style={{ marginTop: "11px " }}>Cancel</a>
                                     </div>
                                 </div>
                             </div>
