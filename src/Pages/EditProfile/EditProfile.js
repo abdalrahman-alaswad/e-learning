@@ -17,6 +17,8 @@ const EditProfile = () => {
     const [emailRes, setEmailRes] = useState()
     const [fullNameRes, setFullNameRes] = useState()
     const [phoneRes, setphoneRes] = useState()
+    const [image, setImage] = useState('');
+
     const navigate = useNavigate()
     useEffect(() => {
         axios.get(`${BaseUrl}/user/id/${Cookies.get("userId")}`,
@@ -36,12 +38,21 @@ const EditProfile = () => {
             .catch(err => {
                 console.log(err)
             })
-    }, [email])
+    }, [email]);
+
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('avatar', image);
+        formData.append('email', email);
+        formData.append('fullName', fullName);
+        formData.append('phone', phone);
+        formData.append('password', password);
+        formData.append('passwordConfirm', passwordConfirm);
 
         axios.put(`${BaseUrl}/user/${Cookies.get("userId")}`,
-            { email, password, passwordConfirm, fullName, phone, avatar: base64Image },
+            formData,
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -55,25 +66,26 @@ const EditProfile = () => {
                 console.log(err)
             })
     }
-    const uploadImage = async (e) => {
-        const file = e.target.files[0];
-        const base64 = await convertBase64(file);
-        setBase64Image(base64)
-    };
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
+    // const uploadImage = async (e) => {
+    //     const file = e.target.files[0];
+    //     const base64 = await convertBase64(file);
+    //     setBase64Image(base64)
+    // };
+    // const convertBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //         const fileReader = new FileReader();
+    //         fileReader.readAsDataURL(file);
 
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
+    //         fileReader.onload = () => {
+    //             resolve(fileReader.result);
+    //         };
 
-            fileReader.onerror = (error) => {
-                reject(error);
-            };
-        });
-    };
+    //         fileReader.onerror = (error) => {
+    //             reject(error);
+    //         };
+    //     });
+    // };
+    
 
     const Back = () => {
         navigate("/Profile")
@@ -97,7 +109,7 @@ const EditProfile = () => {
                                 {/* <!-- Profile picture help block--> */}
                                 <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                                 {/* <!-- Profile picture upload button--> */}
-                                <input type="file" className="btn btn-primary" onChange={(e) => uploadImage(e)} />
+                                <input type="file" className="btn btn-primary" onChange={(e) => setImage(e.target.files[0])} />
 
                             </div>
                         </div>
@@ -126,14 +138,14 @@ const EditProfile = () => {
                                     <div className="row" style={{ marginBottom: "10px" }}>
                                         <div className="col">
                                             <label className="small mb-1" htmlFor="inputEmailAddress" style={{ color: "black", display: "flex", justifyContent: "start" }}>Password</label>
-                                            <input type="password" className="form-control" placeholder="Password" aria-label="Password" onChange={(e) => {
+                                            <input type="password" className="form-control" placeholder="Password" minlength="8" aria-label="Password" onChange={(e) => {
                                                 setPasswordNotEmpty(true)
                                                 setPassword(e.target.value)
                                             }} />
                                         </div>
                                         <div className="col">
                                             <label className="small mb-1" htmlFor="inputEmailAddress" style={{ color: "black", display: "flex", justifyContent: "start" }}>Confirm Password</label>
-                                            <input type="password" className="form-control" placeholder="Confirm Password" aria-label="Confirm Password" onChange={(e) => setPasswordConfirm(e.target.value)} required={passwordNotEmpty ? true : false} />
+                                            <input type="password" className="form-control" placeholder="Confirm Password" minlength="8" aria-label="Confirm Password" onChange={(e) => setPasswordConfirm(e.target.value)} required={passwordNotEmpty ? true : false} />
                                         </div>
                                     </div>
 

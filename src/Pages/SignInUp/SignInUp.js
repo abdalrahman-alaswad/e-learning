@@ -66,7 +66,7 @@ const SignInUp = () => {
                         <form className="form" id="loginForm" method="post" onSubmit={(e) => loginHandler(e)}>
                             <label htmlFor="chk" aria-hidden="true">Log in</label>
                             <input className="input" type="email" name="email" placeholder="Email" required="" id="loginEmail" onChange={(e) => setEmail(e.target.value)} />
-                            <input className="input" type="password" name="password" placeholder="Password" required="" id="loginPass" onChange={(e) => setPassword(e.target.value)} />
+                            <input className="input" type="password" name="password" minlength="8" placeholder="Password" required="" id="loginPass" onChange={(e) => setPassword(e.target.value)} />
                             {error === "true" && <div className="alert alert-success" role="alert">
                                 Your Email Send Successfuly
                             </div>}
@@ -82,8 +82,8 @@ const SignInUp = () => {
                             <label htmlFor="chk" aria-hidden="true">Register</label>
                             <input className="input" type="text" name="fullName" placeholder="Username" required onChange={(e) => setFullName(e.target.value)} />
                             <input className="input" type="email" name="email" placeholder="Email" required onChange={(e) => setRegisterEmail(e.target.value)} />
-                            <input className="input" type="password" name="password" placeholder="Password" required minLength="8" onChange={(e) => setRegisterPassword(e.target.value)} />
-                            <input className="input" type="password" name="passwordConfirm" placeholder="Confirm Password" required
+                            <input className="input" type="password" name="password" minlength="8" placeholder="Password" required onChange={(e) => setRegisterPassword(e.target.value)} />
+                            <input className="input" type="password" name="passwordConfirm" minlength="8" placeholder="Confirm Password" required
                                 minLength="8" onChange={(e) => setPasswordConfirm(e.target.value)} />
                             <input className="input" type="text" name="phone" placeholder="Phone Number" required onChange={(e) => setPhone(e.target.value)} />
                             <button id="registerBtn">Register</button>
