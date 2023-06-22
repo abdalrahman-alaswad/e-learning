@@ -21,7 +21,7 @@ const AdminProfile = () => {
                             <div className="card-header">Profile Picture</div>
                             <div className="card-body text-center">
                                 {/* <!-- Profile picture image--> */}
-                                <img className="img-account-profile rounded-circle mb-2" alt="" />
+                                <img className="img-account-profile rounded-circle mb-2" src={userDetail.avatar} alt="" />
                             </div>
                         </div>
                     </div>

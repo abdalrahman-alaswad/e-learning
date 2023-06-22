@@ -7,7 +7,7 @@ import { BaseUrl } from "../../assets/Data"
 
 const EditProfile = () => {
     const [IMG, setImg] = useState()
-    const [avatar, setBase64Image] = useState()
+    const [base64Image, setBase64Image] = useState()
     const [passwordNotEmpty, setPasswordNotEmpty] = useState(false)
     const [fullName, setFullName] = useState("")
     const [password, setPassword] = useState()
@@ -39,8 +39,9 @@ const EditProfile = () => {
     }, [email])
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log("sa;dlsad;")
         axios.put(`${BaseUrl}/user/${Cookies.get("userId")}`,
-            { email, password, passwordConfirm, fullName, phone, avatar },
+            { email, password, passwordConfirm, fullName, phone, avatar: base64Image },
             {
                 headers: {
                     authToken: Cookies.get("userToken")
@@ -54,7 +55,26 @@ const EditProfile = () => {
                 console.log(err)
             })
     }
-    
+    const uploadImage = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertBase64(file);
+        setBase64Image(base64)
+    };
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
     const Back = () => {
         navigate("/Profile")
     }
@@ -77,7 +97,7 @@ const EditProfile = () => {
                                 {/* <!-- Profile picture help block--> */}
                                 <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                                 {/* <!-- Profile picture upload button--> */}
-                                <input type="file" className="btn btn-primary" onChange={(e) => setBase64Image(e.target.files[0])} />
+                                <input type="file" className="btn btn-primary" onChange={(e) => uploadImage(e)} />
 
                             </div>
                         </div>
@@ -119,16 +139,14 @@ const EditProfile = () => {
 
 
                                     <div className="row gx-3 mb-3" >
-                                        {/* <!-- Form Group (phone number)--> */}
                                         <div className="col-md-6">
                                             <div className="col-md-6" style={{ display: "flex", justifyContent: "start", alignItems: "end" }}>
                                                 <button className="btn btn-primary" type="submit">Save </button>
                                             </div>
                                         </div>
                                         <div className="col-md-6" style={{ display: "flex", justifyContent: "end", alignItems: "end" }}>
-                                            <button className="btn btn-primary" type="submit" style={{ background: "black", border: "none" }} onClick={() => Back()}>Back</button>
+                                            <button className="btn btn-primary" style={{ background: "black", border: "none" }} onClick={() => Back()}>Back</button>
                                         </div>
-
                                     </div>
 
                                 </form>
