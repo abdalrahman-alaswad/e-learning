@@ -59,7 +59,7 @@ const ConfirmBook = () => {
                                         <div>
                                             <h3 className="fw-bold mb-0 text-warning" >{fullName}</h3>
                                             <br />
-                                            <h4 className="display-5 text-white fw-bold">{day} <br />From:{startTime} <br /> To:{endTime}</h4>
+                                            <h4 className="display-5 text-white fw-bold">{day} <br /><span style={{ fontSize: "29px" }}>{startTime}-{endTime}</span></h4>
                                         </div>
                                     </div>
                                     <div className="d-flex flex-wrap flex-md-column justify-content-between h-100">
