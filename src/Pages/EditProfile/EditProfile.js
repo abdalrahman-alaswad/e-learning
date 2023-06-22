@@ -39,6 +39,7 @@ const EditProfile = () => {
     }, [email])
     const handleSubmit = (e) => {
         e.preventDefault()
+
         axios.put(`${BaseUrl}/user/${Cookies.get("userId")}`,
             { email, password, passwordConfirm, fullName, phone, avatar: base64Image },
             {
@@ -55,24 +56,24 @@ const EditProfile = () => {
             })
     }
     const uploadImage = async (e) => {
-        // const file = e.target.files[0];
-        // const base64 = await convertBase64(file);
-        setBase64Image(e.target.files[0])
+        const file = e.target.files[0];
+        const base64 = await convertBase64(file);
+        setBase64Image(base64)
     };
-    // const convertBase64 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsDataURL(file);
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
 
-    //         fileReader.onload = () => {
-    //             resolve(fileReader.result);
-    //         };
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
 
-    //         fileReader.onerror = (error) => {
-    //             reject(error);
-    //         };
-    //     });
-    // };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
 
     const Back = () => {
         navigate("/Profile")
