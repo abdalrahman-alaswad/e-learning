@@ -1,8 +1,46 @@
+import { useEffect, useState } from "react";
 import "./ConfirmBook.css"
 import { BsPaypal } from "react-icons/bs";
+import axios from "axios";
+import { BaseUrl } from "../../assets/Data";
+import Cookies from "js-cookie";
 
 
 const ConfirmBook = () => {
+    const [fullName, setFullName] = useState()
+    const [phone, setPhone] = useState()
+    const [email, setEmail] = useState()
+    const [requestID, setRequestID] = useState()
+    const [day, setDay] = useState()
+    const [startTime, setStartTime] = useState()
+    const [endTime, setEndTime] = useState()
+    useEffect(() => {
+        axios.get(`${BaseUrl}/user/id/${Cookies.get("userId")}`)
+            .then(res => {
+                setFullName(res.data.fullName)
+                setPhone(res.data.phone)
+                setEmail(res.data.email)
+                setRequestID(res.data.requestID)
+                axios.get(`${BaseUrl}/request/${requestID}`,
+                    {
+                        headers: {
+                            authToken: Cookies.get("userToken")
+                        }
+                    })
+                    .then(res => {
+                        setDay(res.data.day)
+                        setStartTime(res.data.startTime)
+                        setEndTime(res.data.endTime)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    })
     return (
         <>
             <section className="py-5 mt-5">
@@ -19,9 +57,9 @@ const ConfirmBook = () => {
                                 <div className="card-body p-4">
                                     <div className="d-flex justify-content-between">
                                         <div>
-                                            <h3 className="fw-bold mb-0 text-warning" >Mahmoud Ragab</h3>
+                                            <h3 className="fw-bold mb-0 text-warning" >{fullName}</h3>
                                             <br />
-                                            <h4 className="display-5 text-white fw-bold">2023/3/20 Mon 12:00</h4>
+                                            <h4 className="display-5 text-white fw-bold">{day} <br />From:{startTime} <br /> To:{endTime}</h4>
                                         </div>
                                     </div>
                                     <div className="d-flex flex-wrap flex-md-column justify-content-between h-100">
@@ -31,7 +69,7 @@ const ConfirmBook = () => {
                                             </svg></div>
                                             <div className="px-2">
                                                 <h6 className="fw-bold mb-0">Your Phone</h6>
-                                                <p className="text-white mb-0">+123456789</p>
+                                                <p className="text-white mb-0">{phone}</p>
                                             </div>
                                         </div>
                                         <div className="d-flex align-items-center p-3">
@@ -40,7 +78,7 @@ const ConfirmBook = () => {
                                             </svg></div>
                                             <div className="px-2">
                                                 <h6 className="fw-bold mb-0">Your Email</h6>
-                                                <p className="text-white mb-0">info@example.com</p>
+                                                <p className="text-white mb-0">{email}</p>
                                             </div>
                                         </div>
                                         <a className="btn btn-sm btn-warning shadow d-block w-100" href="/e-learning" style={{ marginTop: "11px " }}>Cancel</a>
