@@ -54,26 +54,7 @@ const EditProfile = () => {
                 console.log(err)
             })
     }
-    // const uploadImage = async (e) => {
-    //     const file = e.target.files[0];
-    //     const base64 = await convertBase64(file);
-    //     setBase64Image(base64)
-    // };
-
-    // const convertBase64 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsDataURL(file);
-
-    //         fileReader.onload = () => {
-    //             resolve(fileReader.result);
-    //         };
-
-    //         fileReader.onerror = (error) => {
-    //             reject(error);
-    //         };
-    //     });
-    // };
+    
     const Back = () => {
         navigate("/Profile")
     }
@@ -109,7 +90,7 @@ const EditProfile = () => {
                                 <form onSubmit={(e) => handleSubmit(e)}>
                                     {/* <!-- Form Group (username)--> */}
                                     <div className="mb-3">
-                                        <label className="small mb-1" htmlFor="inputUsername" style={{ color: "black", display: "flex", justifyContent: "start" }}>Username </label>
+                                        <label className="small mb-1" htmlFor="inputUsername" style={{ color: "black", display: "flex", justifyContent: "start" }}>Full Name </label>
                                         <input className="form-control" id="inputUsername" type="text" placeholder={fullNameRes} onChange={(e) => setFullName(e.target.value)} />
                                     </div>
                                     {/* <!-- Form Group (email address)--> */}

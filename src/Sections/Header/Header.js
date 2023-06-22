@@ -50,7 +50,6 @@ const Header = () => {
                             <Nav.Link href="#about" className='a'>About</Nav.Link>
                             <Nav.Link href="#service" className='a'>Service</Nav.Link>
                             <Nav.Link href="#testmonial" className='a'>Testmonial</Nav.Link>
-                            <Nav.Link href="#anoucment" className='a'>Anoucment</Nav.Link>
                             {isToken ?
                                 <NavDropdown title={(<img src={IMG} width="30px" height="30px" style={{ borderRadius: "100%" }} />)} id="nav-dropdown" >
                                     <NavDropdown.Item className='a' href='/e-learning/Profile'>

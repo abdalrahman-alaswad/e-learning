@@ -43,7 +43,7 @@ const Profile = () => {
                                         {/* <!-- Form Group (username)--> */}
                                         <div className="mb-3">
                                             <label className="small mb-1" htmlFor="inputUsername" style={{ color: "black", display: "flex", justifyContent: "start" }}>Full Name </label>
-                                            <input className="form-control" id="inputUsername" type="text" placeholder="Abdalrahman16" value={userDetail.fullName} disabled />
+                                            <input className="form-control" id="inputUsername" type="text" value={userDetail.fullName} disabled />
                                         </div>
                                         {/* <!-- Form Row        --> */}
                                         <div className="row gx-3 mb-3">

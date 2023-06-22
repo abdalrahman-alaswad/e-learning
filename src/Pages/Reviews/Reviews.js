@@ -40,7 +40,7 @@ const Reviews = () => {
             })
     }
     const deleteHandler = (ID) => {
-        axios.delete(`${BaseUrl}/review/${ID}`,
+        axios.delete(`${BaseUrl}/user/${ID}`,
             {
                 headers: {
                     authToken: Cookies.get("userToken")

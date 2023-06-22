@@ -22,8 +22,21 @@ const Users = () => {
             })
 
     }, [])
-    const deleteUser = () => {
-
+    const deleteUser = (ID) => {
+        axios.delete(`${BaseUrl}/user/${ID}`,
+            {
+                headers: {
+                    authToken: Cookies.get("userToken")
+                }
+            })
+            .then(res => {
+                console.log(res)
+                window.location.assign("/e-learning/Admin/Users")
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    
     }
     const statusUser = (ID, Status) => {
         {
@@ -53,7 +66,7 @@ const Users = () => {
                     <div className="dropdown">
                         <BiDotsVerticalRounded className=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ width: "30px", height: "30px" }} />
                         <ul className="dropdown-menu">
-                            <li><a className="dropdown-item" href="#" onClick={() => deleteUser()}>Delete</a></li>
+                            <li><a className="dropdown-item" href="#" onClick={() => deleteUser(record.id)}>Delete</a></li>
                             <li><a className="dropdown-item" href="#" onClick={() => {
                                 statusUser(record.id, record.status)
                             }}>{record.status == "active" ? "deactive" : "active"}</a></li>
