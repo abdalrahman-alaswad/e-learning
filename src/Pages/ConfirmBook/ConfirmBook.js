@@ -4,7 +4,7 @@ import { BsPaypal } from "react-icons/bs";
 import axios from "axios";
 import { BaseUrl } from "../../assets/Data";
 import Cookies from "js-cookie";
-
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const ConfirmBook = () => {
     const [fullName, setFullName] = useState()
@@ -98,31 +98,9 @@ const ConfirmBook = () => {
 
                                     <div className="container justify-content-center">
                                         <div className="ref-row ref-checkout-buttons row">
-                                            <form>
-                                                <div class="row g-3">
-                                                    <div class="col">
-                                                        <input type="text" class="form-control" placeholder="First name" aria-label="First name" />
-                                                    </div>
-                                                    <div class="col">
-                                                        <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" />
-                                                    </div>
-                                                </div>
-                                                <div className="check-box-con">
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                                        <label class="form-check-label" for="inlineRadio1"><BsPaypal /></label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
-                                                        <label class="form-check-label" for="inlineRadio2"><BsPaypal /></label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" />
-                                                        <label class="form-check-label" for="inlineRadio3"><BsPaypal /> </label>
-                                                    </div>
-                                                </div>
-                                                <a className="btn btn-sm btn-warning shadow d-block w-100" href="/Book" style={{ marginTop: "11px " }}>Confirm</a>
-                                            </form>
+                                        <PayPalScriptProvider options={{ "client-id": "test" }}>
+                                            <PayPalButtons style={{ layout: "horizontal" }} />
+                                        </PayPalScriptProvider>
 
                                         </div>
                                     </div>
